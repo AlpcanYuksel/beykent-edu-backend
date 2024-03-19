@@ -21,6 +21,8 @@ import com.beykent.entities.concretes.User;
 @RequestMapping("/api/v1")
 public class UserController {
 
+	// test
+
 	@Autowired
 	private UserService userService;
 
