@@ -23,6 +23,7 @@ public class UserService {
 			// Kullanıcı kendini takip edemez
 			return false;
 		}
+
 		User follower = userRepository.findById(followerId)
 				.orElseThrow(() -> new RuntimeException("Takip eden kullanıcı bulunamadı."));
 		User following = userRepository.findById(followingId)
@@ -45,10 +46,19 @@ public class UserService {
 		userRepository.save(user);
 	}
 
-	public List<User> findFollowings(UUID userId) {
-		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-		return user.getFollowings();
+	public List<User> getAll() {
+		return userRepository.findAll();
 	}
+//
+//	public List<User> findFollowings(UUID userId) {
+//		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+//		return user.getFollowings();
+//	}
+
+//	public List<Post> findUserPosts(UUID userId) {
+//		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+//		return user.getPosts();
+//	}
 
 //	public void delete(UUID id) {
 //		// TODO Auto-generated method stub
@@ -59,9 +69,5 @@ public class UserService {
 //		// TODO Auto-generated method stub
 //
 //	}
-
-	public List<User> getAll() {
-		return userRepository.findAll();
-	}
 
 }

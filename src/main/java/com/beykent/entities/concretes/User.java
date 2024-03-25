@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,36 +41,24 @@ public class User implements Serializable {
 	private String studentNo;
 
 	// bi-directional many-to-many association to User
+
 	@ManyToMany
 	@JoinTable(name = "follower", joinColumns = { @JoinColumn(name = "following_user_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "follower_user_id") })
 	private List<User> followings;
 
 	// bi-directional many-to-many association to User
+
 	@ManyToMany(mappedBy = "followings")
 	private List<User> followers;
 
-}
+//	@ManyToMany(mappedBy = "users")
+//	private List<Post> Posts;
 
-//public class User {
-//
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.UUID)
-//	private UUID id;
-//
-//	@Column(name = "student_no", nullable = false, unique = true)
-//	private String studentNo;
-//
-//	@Column(name = "password", nullable = false, unique = true)
-//	private String password;
-//
-//	@Column(name = "full_name")
-//	private String fullName;
-//
-//	@OneToMany(mappedBy = "followers")
-//	private List<Follow> followers;
-//
-//	@OneToMany(mappedBy = "following")
-//	private List<Follow> following;
-//
-//}
+	@OneToMany(mappedBy = "user")
+	private List<Post> posts;
+
+	@OneToMany(mappedBy = "userId")
+	private List<PostLike> postLike;
+
+}
