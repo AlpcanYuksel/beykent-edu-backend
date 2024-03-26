@@ -40,6 +40,12 @@ public class User implements Serializable {
 	@Column(name = "student_no")
 	private String studentNo;
 
+	@Column(name = "media_location")
+	private String profilePhoto;
+
+	@Column(name = "personal_information")
+	private String personalInformation;
+
 	// bi-directional many-to-many association to User
 
 	@ManyToMany
@@ -52,13 +58,16 @@ public class User implements Serializable {
 	@ManyToMany(mappedBy = "followings")
 	private List<User> followers;
 
-//	@ManyToMany(mappedBy = "users")
-//	private List<Post> Posts;
-
 	@OneToMany(mappedBy = "user")
 	private List<Post> posts;
 
 	@OneToMany(mappedBy = "userId")
 	private List<PostLike> postLike;
+
+	@OneToMany(mappedBy = "userId")
+	private List<UserClub> userClubs;
+
+	@OneToMany(mappedBy = "userId")
+	private List<InternshipApplication> internshipApplications;
 
 }

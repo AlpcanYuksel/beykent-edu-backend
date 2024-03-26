@@ -49,6 +49,18 @@ public class UserService {
 	public List<User> getAll() {
 		return userRepository.findAll();
 	}
+
+	public User getUser(UUID id) {
+		return userRepository.findById(id).orElseThrow();
+	}
+
+	public User updateUserProfile(User user) {
+		User updateUser = userRepository.findById(user.getId()).orElseThrow();
+		user.setPassword(updateUser.getPassword());
+		user.setStudentNo(updateUser.getStudentNo());
+		return userRepository.save(user);
+
+	}
 //
 //	public List<User> findFollowings(UUID userId) {
 //		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
