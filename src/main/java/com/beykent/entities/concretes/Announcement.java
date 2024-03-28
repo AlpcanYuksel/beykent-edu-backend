@@ -12,18 +12,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "announcements")
+@Entity // veritabanı objesi olduğunu belirtiyoruz
+@Data // get ve set fonksiyonlarının otommatik tanımlanması
+@AllArgsConstructor // tüm field'ların constructoru
+@NoArgsConstructor // boş constructor
+@Table(name = "announcements") // veritabanı tablo ismi
 public class Announcement {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@Column(name = "title")
+	@Column(name = "title") // veritabanı kolon isimleri
 	private String title;
 
 	@Column(name = "text")
