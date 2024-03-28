@@ -33,13 +33,13 @@ public class InternshipController {
 		internshipService.create(internship);
 	}
 
-	@PostMapping("/ınternship/apply")
+	@PostMapping("/apply")
 	public void applyInternship(@RequestBody InternshipApplicationDTO request) {
 		InternshipApplication application = modelMapper.forRequest().map(request, InternshipApplication.class);
 		internshipService.applyInternship(application);
 	}
 
-	@GetMapping("getAll/Internship")
+	@GetMapping("/getAll")
 	public List<InternshipResponseDTO> getAll() {
 		List<Internship> internships = internshipService.getAll();
 		return internships.stream()

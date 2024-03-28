@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -59,15 +63,23 @@ public class User implements Serializable {
 	private List<User> followers;
 
 	@OneToMany(mappedBy = "user")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Post> posts;
 
 	@OneToMany(mappedBy = "userId")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<PostLike> postLike;
 
 	@OneToMany(mappedBy = "userId")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<UserClub> userClubs;
 
 	@OneToMany(mappedBy = "userId")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<InternshipApplication> internshipApplications;
+
+	@ManyToOne
+	@JoinColumn(name = "role_id")
+	private Role role;
 
 }
