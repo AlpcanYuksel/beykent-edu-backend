@@ -78,6 +78,13 @@ public class User implements Serializable {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<InternshipApplication> internshipApplications;
 
+	@OneToMany(mappedBy = "user")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private List<Comment> comments;
+
+	@OneToMany(mappedBy = "user")
+	private List<CommentLike> commentLikes;
+
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private Role role;

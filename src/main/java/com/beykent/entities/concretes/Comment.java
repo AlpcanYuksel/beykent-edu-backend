@@ -1,6 +1,5 @@
 package com.beykent.entities.concretes;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,33 +16,29 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "post")
-public class Post {
+@Table(name = "comment")
+public class Comment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@Column(name = "created_datetime")
-	private Date createdDatetime;
-
-	@Column(name = "written_text")
-	private String writtenText;
-
-	@Column(name = "media_location")
-	private String mediaLocation;
+	@Column(name = "text")
+	private String text;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToMany(mappedBy = "postId")
-	private List<PostLike> postLike;
+	@ManyToOne
+	@JoinColumn(name = "post_id")
+	private Post post;
 
-	@OneToMany(mappedBy = "post")
-	private List<Comment> comments;
+	@OneToMany(mappedBy = "comment")
+	private List<CommentLike> commentLikes;
+
 }
