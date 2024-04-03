@@ -6,7 +6,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.beykent.dataAccess.CommentRepository;
 import com.beykent.dataAccess.UserRepository;
+import com.beykent.entities.concretes.Comment;
 import com.beykent.entities.concretes.User;
 
 import jakarta.transaction.Transactional;
@@ -16,6 +18,9 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private CommentRepository commentRepository;
 
 	@Transactional
 	public boolean followUser(UUID followerId, UUID followingId) {
@@ -61,25 +66,9 @@ public class UserService {
 		return userRepository.save(user);
 
 	}
-//
-//	public List<User> findFollowings(UUID userId) {
-//		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-//		return user.getFollowings();
-//	}
 
-//	public List<Post> findUserPosts(UUID userId) {
-//		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-//		return user.getPosts();
-//	}
-
-//	public void delete(UUID id) {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	public void update(UUID id, User entity) {
-//		// TODO Auto-generated method stub
-//
-//	}
+	public List<Comment> getAllCommentsByUser(UUID userId) {
+		return commentRepository.findAllByUserId(userId);
+	}
 
 }

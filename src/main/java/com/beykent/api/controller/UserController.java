@@ -9,15 +9,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.beykent.business.UserService;
 import com.beykent.core.utilities.mappers.ModelMapperService;
+import com.beykent.dto.comment.CommentResponseDTO;
 import com.beykent.dto.follow.FollowRequestDTO;
 import com.beykent.dto.user.GetAllUserResponseDTO;
 import com.beykent.dto.user.GetUserResponseDTO;
 import com.beykent.dto.user.UserProfileUpdateDTO;
 import com.beykent.dto.user.UserRequestDTO;
+import com.beykent.entities.concretes.Comment;
 import com.beykent.entities.concretes.User;
 
 @RestController
@@ -44,7 +47,7 @@ public class UserController {
 		return userService.followUser(request.getFollowerId(), request.getFollowingId());
 	}
 
-	@GetMapping("getAllUser")
+	@GetMapping("/getAllUser")
 	public List<GetAllUserResponseDTO> getAll() {
 
 		List<User> user = userService.getAll();
@@ -52,40 +55,24 @@ public class UserController {
 		return user.stream().map(users -> modelMapper.forResponse().map(users, GetAllUserResponseDTO.class)).toList();
 	}
 
-	@GetMapping("getUser")
+	@GetMapping("/getUser")
 	public GetUserResponseDTO getUser(UUID id) {
 		User user = userService.getUser(id);
 		return modelMapper.forResponse().map(user, GetUserResponseDTO.class);
 	}
 
-	@PutMapping("updateUser")
+	@PutMapping("/updateUser")
 	public void updateUserProfile(@RequestBody UserProfileUpdateDTO request) {
 		User user = modelMapper.forRequest().map(request, User.class);
 		userService.updateUserProfile(user);
 	}
 
-//	@GetMapping("getUserFollowings")
-//	public List<FollowerResponseDTO> findFollowings(@RequestBody UUID userId) {
-//		List<User> user = userService.findFollowings(userId);
-//		return user.stream().map(users -> modelMapper.forResponse().map(users, FollowerResponseDTO.class)).toList();
-//	}
-
-//	@GetMapping("getUserPosts")
-//	public List<GetUserPostsDTO> findUserPosts(UUID userId) {
-//		List<Post> posts = userService.findUserPosts(userId);
-//		// return posts.stream().map(post -> modelMapper.forResponse().map(post,
-//		// GetUserPostsDTO.class)).toList();
-//		List<GetUserPostsDTO> result = new ArrayList<GetUserPostsDTO>();
-//		posts.forEach(post -> {
-//			result.add(modelMapper.forResponse().map(post, GetUserPostsDTO.class));
-//		});
-//		return result;
-//	}
-
-//	@GetMapping("getUserFollowers")
-//	public List<FollowerResponseDTO> findFollowings(@ResponseBody UUID userId) {
-//		List<User> user = userService.findFollowings(userId);
-//		return user.stream().map(users -> modelMapper.forResponse().map(users, FollowerResponseDTO.class)).toList();
-//	}
+	@GetMapping("/getUserComments")
+	public List<CommentResponseDTO> getAllCommentsByUser(@RequestParam UUID userId) {
+		List<Comment> userComments = userService.getAllCommentsByUser(userId);
+		List<CommentResponseDTO> request = userComments.stream()
+				.map(comment -> modelMapper.forResponse().map(comment, CommentResponseDTO.class)).toList();
+		return request;
+	}
 
 }
